@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Proyecto Minería de Datos"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Inicio
+      - href: notebooks/eda.ipynb
+        text: EDA
+      - href: notebooks/modelo_supervisado.ipynb
+        text: Modelo supervisado
+      - href: notebooks/clustering.ipynb
+        text: Clustering
+
+format:
+  html:
+    theme: default
+    toc: true
+    code-fold: true

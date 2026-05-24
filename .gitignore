@@ -1,43 +1,8 @@
-# Datos y Almacenamiento
-data/*.csv
-data/*.json
-data/*.xlsx
-data/*.parquet
-
-# Entornos Virtuales y Dependencias
-.venv/
-venv/
-env/
-ENV/
-bin/
-lib/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# Python (Caché y Compilación)
 __pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# Jupyter Notebooks y Quarto
+*.pyc
 .ipynb_checkpoints/
-*/.ipynb_checkpoints/
-.quarto/
-_freeze/
+.env
+data/raw/*.csv
+*.DS_Store
 /.quarto/
 **/*.quarto_ipynb
