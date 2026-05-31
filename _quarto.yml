@@ -2,21 +2,45 @@ project:
   type: website
   output-dir: docs
 
+lang: es
+
 website:
-  title: "Proyecto Minería de Datos"
+  title: "Riesgo Climático y Seguridad Alimentaria en México"
+
+  page-footer: 
+    left: "Almacenes y Minería de Datos"
+    right: "Facultad de Ciencias UNAM"
+
   navbar:
     left:
       - href: index.qmd
         text: Inicio
+      - href: notebooks/dataset.ipynb
+        text: Descripción del dataset
       - href: notebooks/eda.ipynb
         text: EDA
       - href: notebooks/modelo_supervisado.ipynb
         text: Modelo supervisado
       - href: notebooks/clustering.ipynb
         text: Clustering
+    right:
+      - icon: github
+        href: https://github.com/lorenaaglezt/Proyecto-Mineria-Datos
+        text: Código Fuente
 
 format:
   html:
-    theme: default
+    theme: united
     toc: true
-    code-fold: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    number-sections: true
+    code-tools: true
+    code-copy: true
+    highlight-style: github
+    self-contained: true
+    fig-align: center
+    fig-width: 8
+    fig-height: 5
+    df-print: paged
+    html-math-method: mathjax

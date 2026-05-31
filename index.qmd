@@ -1,10 +1,44 @@
 ---
-title: "Proyecto Final"
+title: "Agricultura en México"
 ---
 
-Integrantes:
+**Integrantes:**
 
 - González Téllez Lorena
 - López Rodríguez Leslie Renée
 - Marentes Mosqueda Bruno Sebastián
 - Raya García Marco Antonio
+
+# Descripción del problema
+
+La relación entre la agroindustria y la economía en México es de suma relevancia, debido a que ambos sectores se complementan para brindar un mayor bienestar a la población. Nuestro país cuenta con una extensa variedad de frutas y verduras que se cultivan diariamente en nuestras tierras; sin embargo, más allá de la siembra, el proceso comercial de los cultivos mexicanos es un auténtico motor económico. De este modo, la agricultura se posiciona como uno de los pilares fundamentales de la economía mexicana y un componente crítico para la seguridad alimentaria del país.
+
+A pesar de su riqueza y potencial, la agricultura mexicana enfrenta numerosos retos que amenazan su viabilidad y sostenibilidad. Dentro de estos retos destaca el cambio climático: las sequías severas y las inundaciones inesperadas se están volviendo cada vez más comunes, lo que plantea serias preocupaciones sobre la capacidad del país para alimentar a su población en el futuro. Por otro lado, la infraestructura hídrica en México sigue siendo deficiente y desigual, incrementando drásticamente el riesgo de perder las siembras en el campo. La falta de apoyo y la ausencia de programas que fomenten la mitigación de estos riesgos han obstaculizado el desarrollo sostenible del sector.
+
+Estos retos son complejos y multifacéticos, por lo que requieren la participación de diversos sectores públicos y privados. Para garantizar la seguridad alimentaria es crucial que se implementen estrategias integrales que aborden el problema de manera holística.
+
+El problema central radica en que, históricamente, la evaluación de siniestros agrícolas (pérdida de cultivos en el campo) se realiza de manera reactiva; es decir, después de que ocurre la pérdida. Existe una carencia de herramientas analíticas predictivas que permitan a los tomadores de decisiones, productores y dependencias gubernamentales anticipar el riesgo antes de que comience el ciclo de siembra. Sin una comprensión profunda de qué combinaciones de factores (ubicación geográfica, tipo de cultivo, modalidad hídrica y ciclo productivo) maximizan la probabilidad de siniestro, resulta imposible implementar políticas preventivas eficientes o recomendar cambios de cultivo a los productores.
+
+Es por ello que este proyecto busca analizar el fenómeno del área siniestrada durante los ciclos de siembra en México. El objetivo es mitigar la actual falta de anticipación proporcionando modelos que permitan prever los riesgos antes de que concluya el ciclo agrícola, transformando un enfoque tradicionalmente reactivo en uno proactivo e informado.
+
+## Impacto de la problemática
+
+Este problema tiene una relevancia multidimensional crítica para el país:
+
+1. **Impacto Económico:** La agricultura es el sustento de millones de familias mexicanas. Cuando el área siniestrada aumenta, los productores (especialmente los pequeños agricultores) sufren pérdidas de capital irrecuperables, lo que incrementa la pobreza rural y obliga a la migración. Además, la disminución en el volumen de producción nacional encarece los productos básicos, elevando la inflación.
+
+2. **Impacto Ambiental y Climático:** El cambio climático ha intensificado la frecuencia y severidad de sequías y heladas en México. Debido a la dependencia climática, el riesgo de siniestro es un problema que crecerá en magnitud durante los próximos años si no se toman decisiones basadas en datos.
+
+3. **Seguridad Alimentaria:** La pérdida recurrente de hectáreas sembradas amenaza directamente la disponibilidad de alimentos básicos para la población. Anticipar las zonas y cultivos de alto riesgo es fundamental para la planificación de políticas públicas, la distribución de apoyos gubernamentales y el diseño de seguros agrícolas eficientes.
+
+## Objetivos de Análisis
+
+El objetivo principal es aplicar técnicas de minería de datos para analizar patrones históricos y predecir el riesgo de pérdida de cultivos (área siniestrada) en México, con el fin de identificar las regiones y tipos de siembra más vulnerables, proporcionando información que apoye la toma de decisiones preventivas y la seguridad alimentaria en el sector agrícola. 
+
+De manera medible, esto se desglosa en múltiples metas técnicas que se abordarán en el proyecto:
+
+1. *Análisis de Datos:* Identificar cómo ha evolucionado históricamente la pérdida de hectáreas en México entre 2010 y 2024, comparando la vulnerabilidad de las siembras de temporal frente a las de riego.
+
+2. *Segmentar:* Agrupar los municipios del país en distintos perfiles de vulnerabilidad agrícola utilizando aprendizaje no supervisado. Se busca identificar clústeres de regiones que presenten comportamientos crónicos de pérdida frente a aquellas que muestran resiliencia, para entender sus características comunes.
+
+3. *Predecir:* Entrenar modelos capaces de estimar la proporción de área siniestrada o clasificar el nivel de riesgo (alto/medio/bajo) de una futura siembra, utilizando como variables predictoras el estado, el municipio, el tipo de cultivo, la modalidad (riego/temporal) y el ciclo agrícola.

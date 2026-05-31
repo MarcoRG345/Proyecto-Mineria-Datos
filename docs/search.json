@@ -1,9 +1,30 @@
 [
   {
+    "objectID": "notebooks/dataset.html",
+    "href": "notebooks/dataset.html",
+    "title": "Conjunto de Datos en sector Agrícola en México",
+    "section": "",
+    "text": "Para el desarrollo de este proyecto se hace uso del registro histórico del Servicio de Información Agroalimentaria y Pesquera (SIAP) que comprende la producción agrícola de todos los municipios de México entre los años 2010 y 2024. Este conjunto de datos es la fuente gubernamental oficial que registra la estadística agrícola en México, lo que garantiza que el problema analizado se basa en la realidad operativa del país.\nAdemás, cuenta con el registro de Área Sembrada, Área Siniestrada y variables de contexto crítico como la Modalidad (riego/temporal), el Cultivo y la ubicación geográfica hasta nivel Municipio.\nAl abarcar 14 años continuos de registros (2010-2024), proporciona el volumen histórico necesario (más de medio millón de registros) para que los algoritmos de minería de datos puedan encontrar patrones robustos a través del tiempo, capturando las variaciones climáticas de la última década a un nivel de detalle municipal."
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Proyecto Final - Minería de Datos",
+    "title": "Agricultura en México",
     "section": "",
-    "text": "Integrantes:\n\nGonzález Téllez Lorena\nLópez Rodríguez Leslie Renée\nMarentes Mosqueda Bruno Sebastián\nRaya García Marco Antonio"
+    "text": "Integrantes:"
+  },
+  {
+    "objectID": "index.html#impacto-de-la-problemática",
+    "href": "index.html#impacto-de-la-problemática",
+    "title": "Agricultura en México",
+    "section": "1.1 Impacto de la problemática",
+    "text": "1.1 Impacto de la problemática\nEste problema tiene una relevancia multidimensional crítica para el país:\n\nImpacto Económico: La agricultura es el sustento de millones de familias mexicanas. Cuando el área siniestrada aumenta, los productores (especialmente los pequeños agricultores) sufren pérdidas de capital irrecuperables, lo que incrementa la pobreza rural y obliga a la migración. Además, la disminución en el volumen de producción nacional encarece los productos básicos, elevando la inflación.\nImpacto Ambiental y Climático: El cambio climático ha intensificado la frecuencia y severidad de sequías y heladas en México. Debido a la dependencia climática, el riesgo de siniestro es un problema que crecerá en magnitud durante los próximos años si no se toman decisiones basadas en datos.\nSeguridad Alimentaria: La pérdida recurrente de hectáreas sembradas amenaza directamente la disponibilidad de alimentos básicos para la población. Anticipar las zonas y cultivos de alto riesgo es fundamental para la planificación de políticas públicas, la distribución de apoyos gubernamentales y el diseño de seguros agrícolas eficientes."
+  },
+  {
+    "objectID": "index.html#objetivos-de-análisis",
+    "href": "index.html#objetivos-de-análisis",
+    "title": "Agricultura en México",
+    "section": "1.2 Objetivos de Análisis",
+    "text": "1.2 Objetivos de Análisis\nEl objetivo principal es aplicar técnicas de minería de datos para analizar patrones históricos y predecir el riesgo de pérdida de cultivos (área siniestrada) en México, con el fin de identificar las regiones y tipos de siembra más vulnerables, proporcionando información que apoye la toma de decisiones preventivas y la seguridad alimentaria en el sector agrícola.\nDe manera medible, esto se desglosa en múltiples metas técnicas que se abordarán en el proyecto:\n\nAnálisis de Datos: Identificar cómo ha evolucionado históricamente la pérdida de hectáreas en México entre 2010 y 2024, comparando la vulnerabilidad de las siembras de temporal frente a las de riego.\nSegmentar: Agrupar los municipios del país en distintos perfiles de vulnerabilidad agrícola utilizando aprendizaje no supervisado. Se busca identificar clústeres de regiones que presenten comportamientos crónicos de pérdida frente a aquellas que muestran resiliencia, para entender sus características comunes.\nPredecir: Entrenar modelos capaces de estimar la proporción de área siniestrada o clasificar el nivel de riesgo (alto/medio/bajo) de una futura siembra, utilizando como variables predictoras el estado, el municipio, el tipo de cultivo, la modalidad (riego/temporal) y el ciclo agrícola."
   }
 ]
