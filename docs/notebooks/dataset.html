@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Conjunto de Datos en sector Agrícola en México – Riesgo Climático y Seguridad Alimentaria en México</title>
+<title>Conjunto de Datos del Sector Agrícola en México – Riesgo Climático y Seguridad Alimentaria en México</title>
 <style>
 
 code{white-space: pre-wrap;}
@@ -4052,15 +4052,28 @@ vertical-align: -.125em;
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#tamaño-del-conjunto-de-datos" id="toc-tamaño-del-conjunto-de-datos" class="nav-link active" data-scroll-target="#tamaño-del-conjunto-de-datos"><span class="header-section-number">1</span> Tamaño del Conjunto de Datos</a></li>
+  <li><a href="#descripción-de-las-variables" id="toc-descripción-de-las-variables" class="nav-link" data-scroll-target="#descripción-de-las-variables"><span class="header-section-number">2</span> Descripción de las Variables</a>
+  <ul class="collapse">
+  <li><a href="#variables-temporales-y-geográficas" id="toc-variables-temporales-y-geográficas" class="nav-link" data-scroll-target="#variables-temporales-y-geográficas"><span class="header-section-number">2.1</span> Variables Temporales y Geográficas</a></li>
+  <li><a href="#variables-de-las-condiciones-de-cultivo" id="toc-variables-de-las-condiciones-de-cultivo" class="nav-link" data-scroll-target="#variables-de-las-condiciones-de-cultivo"><span class="header-section-number">2.2</span> Variables de las Condiciones de Cultivo</a></li>
+  <li><a href="#variables-de-superficie-agrícola" id="toc-variables-de-superficie-agrícola" class="nav-link" data-scroll-target="#variables-de-superficie-agrícola"><span class="header-section-number">2.3</span> Variables de Superficie Agrícola</a></li>
+  <li><a href="#variables-de-producción-y-económicas" id="toc-variables-de-producción-y-económicas" class="nav-link" data-scroll-target="#variables-de-producción-y-económicas"><span class="header-section-number">2.4</span> Variables de Producción y Económicas</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Conjunto de Datos en sector Agrícola en México</h1>
+<h1 class="title">Conjunto de Datos del Sector Agrícola en México</h1>
 </div>
 
 
@@ -4080,8 +4093,59 @@ vertical-align: -.125em;
 <p>Para el desarrollo de este proyecto se hace uso del registro histórico del Servicio de Información Agroalimentaria y Pesquera (SIAP) que comprende la producción agrícola de todos los municipios de México entre los años 2010 y 2024. Este conjunto de datos es la fuente gubernamental oficial que registra la estadística agrícola en México, lo que garantiza que el problema analizado se basa en la realidad operativa del país.</p>
 <p>Además, cuenta con el registro de Área Sembrada, Área Siniestrada y variables de contexto crítico como la Modalidad (riego/temporal), el Cultivo y la ubicación geográfica hasta nivel Municipio.</p>
 <p>Al abarcar 14 años continuos de registros (2010-2024), proporciona el volumen histórico necesario (más de medio millón de registros) para que los algoritmos de minería de datos puedan encontrar patrones robustos a través del tiempo, capturando las variaciones climáticas de la última década a un nivel de detalle municipal.</p>
+<section id="tamaño-del-conjunto-de-datos" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="tamaño-del-conjunto-de-datos"><span class="header-section-number">1</span> Tamaño del Conjunto de Datos</h2>
+<p>El archivo utilizado es un volumen de información masivo y sumamente detallado:</p>
+<ul>
+<li><strong>Dimensión temporal:</strong> 14 años de registros históricos.</li>
+<li><strong>Número de registros (filas):</strong> 541,840 registros individuales.</li>
+<li><strong>Granularidad:</strong> A nivel municipal, desglosado por ciclo, cultivo y modalidad hídrica.</li>
+</ul>
+<p>Esta magnitud asegura la disponibilidad de datos suficientes para que los algoritmos de minería de datos identifiquen patrones robustos, evitando problemas de escasez o sobreajuste al analizar dinámicas temporales y regionales.</p>
+</section>
+<section id="descripción-de-las-variables" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="descripción-de-las-variables"><span class="header-section-number">2</span> Descripción de las Variables</h2>
+<p>Cada fila del dataset representa el resultado de una cosecha para un municipio y cultivo específico en un año determinado. Las variables se dividen en cuatro grandes categorías que ofrecen un panorama holístico del fenómeno agrícola:</p>
+<section id="variables-temporales-y-geográficas" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="variables-temporales-y-geográficas"><span class="header-section-number">2.1</span> Variables Temporales y Geográficas</h3>
+<p>Permiten ubicar la siembra en el tiempo y el espacio geográfico:</p>
+<ul>
+<li><p><strong><code>Anio</code></strong>: El año en que se llevó a cabo el registro de la cosecha (2010 - 2024).</p></li>
+<li><p><strong><code>Nomestado</code></strong> y <strong><code>Nommunicipio</code></strong>: El Estado y el Municipio exacto donde se llevó a cabo la actividad agrícola.</p></li>
+<li><p><strong><code>Nomddr</code></strong> y <strong><code>Nomcader</code></strong>: Nombre del Distrito de Desarrollo Rural (DDR) y del Centro de Apoyo al Desarrollo Rural (CADER). Son demarcaciones administrativas oficiales utilizadas por el SIAP, útiles para análisis regionales más amplios que un municipio.</p></li>
+</ul>
+</section>
+<section id="variables-de-las-condiciones-de-cultivo" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="variables-de-las-condiciones-de-cultivo"><span class="header-section-number">2.2</span> Variables de las Condiciones de Cultivo</h3>
+<p>Describen las características biológicas y técnicas de la siembra:</p>
+<ul>
+<li><p><strong><code>Nomcultivo</code></strong>: El tipo específico de producto sembrado (ej. Maíz grano, Frijol, Avena forrajera, Tomate rojo, Aguacate).</p></li>
+<li><p><strong><code>Nomcicloproductivo</code></strong>: La temporada del año en la que se realizó el cultivo, dividida en: <em>Otoño-Invierno</em>, <em>Primavera-Verano</em>, o <em>Perennes</em> (cultivos de ciclo continuo como árboles frutales).</p></li>
+<li><p><strong><code>Nommodalidad</code></strong>: Representa la dependencia hídrica del cultivo. <em>Riego</em> indica que cuenta con infraestructura artificial para abastecimiento de agua, mientras que <em>Temporal</em> indica una dependencia total del ciclo natural de lluvias.</p></li>
+</ul>
+</section>
+<section id="variables-de-superficie-agrícola" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="variables-de-superficie-agrícola"><span class="header-section-number">2.3</span> Variables de Superficie Agrícola</h3>
+<p>Miden físicamente las hectáreas de tierra utilizadas y sus resultados de supervivencia:</p>
+<ul>
+<li><p><strong><code>Sembrada</code></strong>: La superficie total (en hectáreas) que los agricultores plantaron al inicio del ciclo agrícola.</p></li>
+<li><p><strong><code>Cosechada</code></strong>: La superficie total (en hectáreas) de la cual se logró extraer producto exitosamente al finalizar el ciclo.</p></li>
+<li><p><strong><code>Siniestrada</code></strong>: La superficie total (en hectáreas) donde la siembra se perdió o murió prematuramente, comúnmente debido a desastres climáticos (sequías, heladas, inundaciones) o plagas biológicas. Es el núcleo principal de nuestro análisis de riesgo climático.</p></li>
+</ul>
+</section>
+<section id="variables-de-producción-y-económicas" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="variables-de-producción-y-económicas"><span class="header-section-number">2.4</span> Variables de Producción y Económicas</h3>
+<p>Evalúan el éxito material y financiero de la cosecha:</p>
+<ul>
+<li><p><strong><code>Volumenproduccion</code></strong>: La cantidad física total del producto agrícola que se logró extraer, medida generalmente en toneladas.</p></li>
+<li><p><strong><code>Rendimiento</code></strong>: Eficiencia productiva calculada como las toneladas extraídas por cada hectárea cosechada.</p></li>
+<li><p><strong><code>Preciomediorural</code></strong>: El precio promedio (en pesos mexicanos) al que se le pagó al productor por tonelada del cultivo.</p></li>
+<li><p><strong><code>Valorproduccion</code></strong>: El valor económico total generado por la cosecha en esa región (calculado como Volumen de Producción × Precio Medio Rural).</p></li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
