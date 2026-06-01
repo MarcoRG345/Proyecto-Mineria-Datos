@@ -9,7 +9,9 @@ title: "Agricultura en México"
 - Marentes Mosqueda Bruno Sebastián
 - Raya García Marco Antonio
 
-# Descripción del problema
+# Introducción
+
+## Descripción del problema
 
 La relación entre la agroindustria y la economía en México es de suma relevancia, debido a que ambos sectores se complementan para brindar un mayor bienestar a la población. Nuestro país cuenta con una extensa variedad de frutas y verduras que se cultivan diariamente en nuestras tierras; sin embargo, más allá de la siembra, el proceso comercial de los cultivos mexicanos es un auténtico motor económico. De este modo, la agricultura se posiciona como uno de los pilares fundamentales de la economía mexicana y un componente crítico para la seguridad alimentaria del país.
 
@@ -21,7 +23,7 @@ El problema central radica en que, históricamente, la evaluación de siniestros
 
 Es por ello que este proyecto busca analizar el fenómeno del área siniestrada durante los ciclos de siembra en México. El objetivo es mitigar la actual falta de anticipación proporcionando modelos que permitan prever los riesgos antes de que concluya el ciclo agrícola, transformando un enfoque tradicionalmente reactivo en uno proactivo e informado.
 
-## Impacto de la problemática
+## ¿Por qué es relevante?
 
 Este problema tiene una relevancia multidimensional crítica para el país:
 
@@ -31,7 +33,7 @@ Este problema tiene una relevancia multidimensional crítica para el país:
 
 3. **Seguridad Alimentaria:** La pérdida recurrente de hectáreas sembradas amenaza directamente la disponibilidad de alimentos básicos para la población. Anticipar las zonas y cultivos de alto riesgo es fundamental para la planificación de políticas públicas, la distribución de apoyos gubernamentales y el diseño de seguros agrícolas eficientes.
 
-## Objetivos de Análisis
+## ¿Qué se busca lograr?
 
 El objetivo principal es aplicar técnicas de minería de datos para analizar patrones históricos y predecir el riesgo de pérdida de cultivos (área siniestrada) en México, con el fin de identificar las regiones y tipos de siembra más vulnerables, proporcionando información que apoye la toma de decisiones preventivas y la seguridad alimentaria en el sector agrícola. 
 
@@ -42,3 +44,11 @@ De manera medible, esto se desglosa en múltiples metas técnicas que se abordar
 2. *Segmentar:* Agrupar los municipios del país en distintos perfiles de vulnerabilidad agrícola utilizando aprendizaje no supervisado. Se busca identificar clústeres de regiones que presenten comportamientos crónicos de pérdida frente a aquellas que muestran resiliencia, para entender sus características comunes.
 
 3. *Predecir:* Entrenar modelos capaces de estimar la proporción de área siniestrada o clasificar el nivel de riesgo (alto/medio/bajo) de una futura siembra, utilizando como variables predictoras el estado, el municipio, el tipo de cultivo, la modalidad (riego/temporal) y el ciclo agrícola.
+
+## ¿Por qué este *dataset*?
+
+Para poder realizar el análisis de esta problemática se utilizaron los datos abiertos de la estadística de producción agrícola proporcionados por la Dirección General del Servicio de Información Agroalimentaria y Pesquera. Los datos que se proporcionan son a nivel municipal y a nivel nacional, para mayor detalle de análisis en este proyecto se consultaron los de nivel municipal en un periodo de tiempo que va desde 2010 hasta 2024.
+
+La elección de estos datos nos ayuda en el desarrollo de los objetivos planteados, además de que fueron obtenidos a partir de una fuente gubernamental oficial que se basa en la realidad operativa del país. Además, cuenta con el información del registro de Área Sembrada, Área Siniestrada y variables de contexto crítico como la Modalidad (riego/temporal), el Cultivo y la ubicación geográfica hasta nivel Municipio.
+
+Al abarcar 14 años continuos de registros, proporciona el volumen histórico necesario para que los algoritmos de minería de datos puedan encontrar patrones robustos a través del tiempo, capturando las variaciones climáticas de la última década a un nivel de detalle municipal.
