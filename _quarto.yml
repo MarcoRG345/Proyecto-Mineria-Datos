@@ -16,7 +16,7 @@ website:
       - href: index.qmd
         text: Inicio
       - href: notebooks/dataset.ipynb
-        text: Descripción del dataset
+        text: Datos y Contexto
       - href: notebooks/eda.ipynb
         text: EDA
       - href: notebooks/modelo_supervisado.ipynb
@@ -26,7 +26,6 @@ website:
     right:
       - icon: github
         href: https://github.com/lorenaaglezt/Proyecto-Mineria-Datos
-        text: Código Fuente
 
 format:
   html:

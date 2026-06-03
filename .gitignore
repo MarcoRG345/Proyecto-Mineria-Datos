@@ -3,6 +3,7 @@ __pycache__/
 .ipynb_checkpoints/
 .env
 data/raw/*.csv
+data/processed/*.csv
 *.DS_Store
 /.quarto/
 **/*.quarto_ipynb
