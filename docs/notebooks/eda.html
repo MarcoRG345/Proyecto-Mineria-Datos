@@ -4175,7 +4175,7 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../notebooks/dataset.html"> 
-<span class="menu-text">Descripción del dataset</span></a>
+<span class="menu-text">Datos y Contexto</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../notebooks/eda.html" aria-current="page"> 
@@ -4286,7 +4286,7 @@ window.Quarto = {
 <section id="descripción-general" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="descripción-general"><span class="header-section-number">1</span> Descripción general</h2>
 <p>El conjunto de datos que se utiliza en este proyecto consiste de 541,839 filas correspondientes a cada registro a nivel municipal. Cada registro cuenta con 24 columnas que describen los detalles del mismo, estas son variables categóricas y numéricas.</p>
-<div id="ceeb6e8c" class="cell" data-execution_count="2">
+<div id="ceeb6e8c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>DESCRIPCIÓN DEL DATASET
 
@@ -4464,7 +4464,7 @@ Periodo  : 2010 – 2024
 <p>A partir de la información obtenida a través del dataset realizamos la creación de una nueva variable: Proporción de Siniestro. Esto debido a que la columna Siniestrada registra las hectáreas de la superficie de la cual no se obtuvo cultivo debido a alguna causa de fuerza mayor como lo es el impacto del cambio climático. Sin embargo, podemos diferenciar en que perder 500 hectáreas en un municipio que sembró 600 representa una catástrofe agrícola, mientras que la misma cifra en un municipio que sembó 50,000 hectáreas constituye una pérdida marginal.</p>
 <p>Por ello, este ratio nos permite tener más consistencia de análisis y dimensionar mejor. El rango va de 0 (sin pérdida) a 1 (la totalidad del área sembrada fue siniestrada). La definición de la variable es:</p>
 <p><span class="math display">\[proporcion\_siniestro = \frac{Siniestrada}{Sembrada}\]</span></p>
-<div id="f2eead92" class="cell" data-execution_count="3">
+<div id="f2eead92" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -4500,7 +4500,7 @@ Periodo  : 2010 – 2024
 <li><p>Riesgo alto (40–75%): pérdida severa que compromete el ciclo</p></li>
 <li><p>Pérdida crítica (&gt;75%): pérdida casi total del área sembrada</p></li>
 </ul>
-<div id="1966212e" class="cell" data-execution_count="4">
+<div id="1966212e" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -4563,7 +4563,7 @@ Periodo  : 2010 – 2024
 <section id="calidad-de-datos" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="calidad-de-datos"><span class="header-section-number">2</span> Calidad de datos</h2>
 <p>A continuación vamos a analizar los valores faltantes en el dataset y la presencia de registros duplicados.</p>
-<div id="4c0d7e8e" class="cell" data-execution_count="5">
+<div id="4c0d7e8e" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -4613,7 +4613,7 @@ Registros duplicados: 10</code></pre>
 <h3 data-number="2.1" class="anchored" data-anchor-id="valores-faltantes"><span class="header-section-number">2.1</span> Valores Faltantes</h3>
 <p>Resulta conveniente adentrarnos en la aparición de valores nulos en ciertos registros. En el siguiente gráfico podemos ver la correlación entre la presencia de nulos de las 4 variables que los presentan: Sembrada, Volumenproduccion, Rendimiento y Precio.</p>
 <p>Podemos observar que Rendimiento y Precio están fuertemente relacionadas. En 487 registros, Precio y Rendimiento faltan en conjunto, es decir, cuando falta Precio siempre falta Rendimiento, lo que indica una regla o dependencia estricta. Por otro lado, Sembrada y Volumenproduccion al ser muy pocos pueden ser considerados como errores de captura en el sistema de datos que obtuvimos inicialmente.</p>
-<div id="f3e71efb" class="cell" data-execution_count="6">
+<div id="f3e71efb" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -4623,7 +4623,7 @@ Registros duplicados: 10</code></pre>
 </div>
 </div>
 <p>Adentrandonos más en la falta de los campos Precio y Rendimiento totalmente relacionados, conviene analizar si son un error de captura en el sistema indicando MCAR o si hay algún factor que influye en su ausencia.</p>
-<div id="fbdef4c0" class="cell" data-execution_count="7">
+<div id="fbdef4c0" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>De los 487 registros sin Precio/Rendimiento,
 487 (100.00%) tienen Área Cosechada igual a 0.</code></pre>
@@ -4641,7 +4641,7 @@ Registros duplicados: 10</code></pre>
 <section id="duplicados" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="duplicados"><span class="header-section-number">2.2</span> Duplicados</h3>
 <p>En el total del conjunto de datos se encontraron únicamente 10 registros duplicados. Dado que es un número muy pequeño considerando el tamaño de datos que estamos trabajando, podemos eliminarlos sin afectar la potencia estadística.</p>
-<div id="18114aa9" class="cell" data-execution_count="9">
+<div id="18114aa9" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-stdout">
 <pre><code>Se eliminaron 10 registros duplicados.
 El dataset ahora tiene 541,829 filas.</code></pre>
@@ -4655,7 +4655,7 @@ El dataset ahora tiene 541,829 filas.</code></pre>
 <p>A continuación presentamos las estadísticas descriptivas de nuestro conjunto de datos. Necesitamos analizar tanto nuestras variables numéricas como las categóricas.</p>
 <section id="variables-numéricas" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="variables-numéricas"><span class="header-section-number">3.1</span> Variables Numéricas</h3>
-<div id="7a007fc9" class="cell" data-execution_count="10">
+<div id="7a007fc9" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -4774,28 +4774,28 @@ El dataset ahora tiene 541,829 filas.</code></pre>
 </section>
 <section id="variables-categóricas" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="variables-categóricas"><span class="header-section-number">3.2</span> Variables Categóricas</h3>
-<div id="29af35e6" class="cell" data-execution_count="11">
+<div id="29af35e6" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Nomestado: 33 categorías. Moda: &#39;Oaxaca&#39;
-Top 3 frecuencias (conteos):
+Top 3 frecuencias:
 - Oaxaca: 71,184 registros
 - Puebla: 51,753 registros
 - Michoacán: 35,188 registros
 
 Nomcicloproductivo: 3 categorías. Moda: &#39;Primavera-Verano&#39;
-Top 3 frecuencias (conteos):
+Top 3 frecuencias:
 - Primavera-Verano: 234,707 registros
 - Perennes: 166,175 registros
 - Otoño-Invierno: 140,947 registros
 
 Nommodalidad: 2 categorías. Moda: &#39;Riego&#39;
-Top 3 frecuencias (conteos):
+Top 3 frecuencias:
 - Riego: 295,546 registros
 - Temporal: 246,283 registros
 
 Nomcultivo: 454 categorías. Moda: &#39;Maíz grano&#39;
-Top 3 frecuencias (conteos):
+Top 3 frecuencias:
 - Maíz grano: 69,586 registros
 - Frijol: 43,677 registros
 - Avena forrajera en verde: 21,910 registros</code></pre>
@@ -4815,7 +4815,7 @@ Top 3 frecuencias (conteos):
 <li><p>Diferencias de rendimiento y producción: Las tierras de “Riego” suelen tener un control mucho mayor sobre el agua, lo que resulta en rendimientos más altos y estables. Las de “Temporal” dependen completamente del clima (lluvias), por lo que suelen tener rendimientos más bajos y mayor variabilidad. Un valor de rendimiento que es “normal” para Riego podría ser un “valor atípico (excesivamente alto)” para Temporal.</p></li>
 <li><p>Diferencias en siniestros: Las tierras de Temporal son estructuralmente más vulnerables a las sequías o excesos de lluvia. Si mezclas ambos, el alto nivel de siniestros normal en Temporal podría parecer un “outlier” general, o viceversa, la falta de siniestros en Riego podría sesgar la media.</p></li>
 </ol>
-<div id="463e3458" class="cell" data-execution_count="12">
+<div id="463e3458" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -5001,7 +5001,7 @@ Top 3 frecuencias (conteos):
 <h2 data-number="5" class="anchored" data-anchor-id="distribuciones"><span class="header-section-number">5</span> Distribuciones</h2>
 <p>Antes de interpretar las distribuciones, es importante explicar la transformación aplicada a las visualizaciones. Todas las variables numéricas del dataset presentan sesgo positivo severo: la mayoría de los valores se concentran cerca de cero mientras que unos pocos registros alcanzan magnitudes enormes (por ejemplo, superficies de 200,000 ha o valores de producción de miles de millones de pesos). Graficar estos datos en su escala original produce histogramas donde prácticamente toda la masa se apila en la primera barra y el resto del rango queda vacío, haciendo imposible distinguir la forma real de la distribución.</p>
 <p>La transformación <code>log1p</code> resuelve esto aplicando la función: <span class="math display">\[ x′=log⁡(1+x) \]</span> El efecto práctico es que las diferencias entre valores pequeños se amplían y las diferencias entre valores grandes se reducen, permitiendo ver la forma completa de la distribución sin eliminar ningún dato.</p>
-<div id="9a80e980" class="cell" data-execution_count="13">
+<div id="9a80e980" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -5030,7 +5030,7 @@ Top 3 frecuencias (conteos):
 <section id="matriz-de-correlaciones" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="matriz-de-correlaciones"><span class="header-section-number">6.1</span> Matriz de Correlaciones</h3>
 <p>Para analizar las relaciones entre las variables numéricas del dataset se calculó la matriz de correlaciones de Spearman, ya que mide la correlación entre los rangos de los valores en lugar de los valores directos, lo que la hace robusta ante distribuciones asimétricas y valores atípicos extremos como los identificados en las secciones anteriores. Dado que prácticamente todas las variables del dataset presentan sesgo positivo y outliers significativos, Spearman nos ayuda a capturar relaciones sin que los extremos distorsionen el resultado.</p>
-<div id="acf06f5c" class="cell" data-execution_count="14">
+<div id="acf06f5c" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -5051,7 +5051,7 @@ Top 3 frecuencias (conteos):
 <section id="área-sembrada-y-área-siniestrada" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="área-sembrada-y-área-siniestrada"><span class="header-section-number">6.2</span> Área Sembrada y Área Siniestrada</h3>
 <p>La siguiente gráfica muestra la relación entre el área sembrada y el área siniestrada en escala <code>log1p</code> para una muestra aleatoria de 50,000 registros, diferenciando por modalidad hídrica.</p>
-<div id="03e89ddd" class="cell" data-execution_count="15">
+<div id="03e89ddd" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -5068,7 +5068,7 @@ Top 3 frecuencias (conteos):
 <section id="análisis-de-variables-categóricas" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="análisis-de-variables-categóricas"><span class="header-section-number">7</span> Análisis de variables categóricas</h2>
 <p>Dentro de las variables categóricas encontramos: “Nomestado”, “Nomcicloproductivo”, “Nommodalidad”, “Nomcultivo”. A continuación se presentan los gráficos de las frecuencias en las categorías para cada una de estas variables.</p>
-<div id="021e5476" class="cell" data-execution_count="16">
+<div id="021e5476" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -5119,7 +5119,7 @@ Top 3 frecuencias (conteos):
 <h3 data-number="7.5" class="anchored" data-anchor-id="cultivos-más-frecuentes-en-los-estados-más-frecuentes"><span class="header-section-number">7.5</span> Cultivos más frecuentes en los Estados más frecuentes</h3>
 <p>El primer gráfico cruza los cinco estados con más registros en el dataset contra los cinco cultivos más frecuentes, permitiendo identificar qué combinaciones estado-cultivo dominan la estructura del dataset. El patrón más evidente es la concentración extrema en Oaxaca con maíz grano (17,757 registros) y frijol (11,919 registros). Estos dos valores por sí solos representan una proporción desproporcionada del total, lo que confirma que la combinación Oaxaca-maíz es el eje central alrededor del cual está construido el dataset.</p>
 <p>Por otro lado, tenemos los registros por cultivo en los Top 5 estados. La barra azul de Oaxaca domina visualmente en maíz y frijol, duplicando o triplicando a cualquier otro estado en ambos cultivos. Esta asimetría visual refuerza el punto señalado anteriormente: el dataset tiene un sesgo estructural hacia Oaxaca en los cultivos básicos. Para los tres cultivos restantes la distribución entre estados es más equilibrada, con barras de altura similar entre Puebla, Michoacán, Jalisco y Veracruz.</p>
-<div id="910d523b" class="cell" data-execution_count="17">
+<div id="910d523b" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -5142,7 +5142,7 @@ Top 3 frecuencias (conteos):
 <section id="cultivos-a-lo-largo-del-tiempo" class="level3" data-number="8.1">
 <h3 data-number="8.1" class="anchored" data-anchor-id="cultivos-a-lo-largo-del-tiempo"><span class="header-section-number">8.1</span> Cultivos a lo largo del tiempo</h3>
 <p>Las visualizaciones de series de tiempo permiten examinar la dimensión temporal del dataset, que abarca 15 años continuos de actividad agrícola (2010–2024). A diferencia de las secciones anteriores, que analizaron la distribución estática de las variables, esta sección busca identificar tendencias, ciclos y eventos atípicos en el comportamiento del sistema agrícola mexicano a lo largo del tiempo. La perspectiva temporal es fundamental para el objetivo del proyecto porque el riesgo de siniestro no es un fenómeno estático: está determinado en parte por condiciones climáticas que varían año con año y que han mostrado una tendencia de intensificación asociada al cambio climático.</p>
-<div id="c88f697e" class="cell" data-execution_count="18">
+<div id="c88f697e" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -5170,7 +5170,7 @@ Top 3 frecuencias (conteos):
 <h3 data-number="8.2" class="anchored" data-anchor-id="área-siniestrada-por-estado"><span class="header-section-number">8.2</span> Área Siniestrada por Estado</h3>
 <p>El ranking revela que el riesgo agrícola en México tiene una geografía claramente definida hacia el <strong>norte y el Altiplano Central</strong>. San Luis Potosí y Zacatecas encabezan la lista con 1.75 y 1.6 millones de hectáreas perdidas acumuladas, seguidos por Tamaulipas (1.3 millones) y Sinaloa (1.05 millones). Los cuatro estados del top tienen en común grandes superficies de temporal expuestas a sequías recurrentes, y concentran prácticamente el doble de siniestro que cualquier estado del tercio inferior del ranking.</p>
 <p>En contraste, estados como Oaxaca, Puebla o Jalisco (que lideraban el número de registros totales en el dataset) aparecen aquí con valores relativamente bajos, confirmando que tener muchos registros no equivale a tener alto riesgo.</p>
-<div id="8b1566b6" class="cell" data-execution_count="19">
+<div id="8b1566b6" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -5187,7 +5187,7 @@ Top 3 frecuencias (conteos):
 <p>En Sinaloa, vemos como la porción de riego supera ampliamente al temporal. Los grandes distritos de riego del norte sustentan una producción comercial intensiva de trigo, maíz, soya y hortalizas de exportación, por lo que presenta mayores avances hidroagrícolas.</p>
 <p>Podemos ver que a pesar de que Oaxaca es el estado con más registros, no es el que tiene mayor área cosechada, sin embargo, su presencia en el ranking muestra su importancia en su aporte a la agricultura del país. Presenta casi la totalidad de su superficie cosechada bajo modalidad temporal, con una porción de riego mínima, lo que es coherente con su perfil de agricultura campesina de pequeña escala en zonas de difícil acceso donde la infraestructura hídrica es escasa.</p>
 <p>Los estados con temporal casi exclusivo pero condiciones climáticas favorables (Jalisco, Veracruz, Chiapas, Oaxaca) cosechan mucho sin perder proporcionalmente, validando que la modalidad hídrica interactúa con la geografía climática para determinar el riesgo real.</p>
-<div id="6dc04c48" class="cell" data-execution_count="20">
+<div id="6dc04c48" class="cell" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

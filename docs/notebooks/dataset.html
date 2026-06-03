@@ -4020,7 +4020,7 @@ vertical-align: -.125em;
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../notebooks/dataset.html" aria-current="page"> 
-<span class="menu-text">Descripción del dataset</span></a>
+<span class="menu-text">Datos y Contexto</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../notebooks/eda.html"> 
@@ -4057,7 +4057,11 @@ vertical-align: -.125em;
     <h2 id="toc-title">Contenido</h2>
    
   <ul>
-  <li><a href="#descripción-de-las-variables" id="toc-descripción-de-las-variables" class="nav-link active" data-scroll-target="#descripción-de-las-variables"><span class="header-section-number">1</span> Descripción de las Variables</a></li>
+  <li><a href="#descripción-de-las-variables" id="toc-descripción-de-las-variables" class="nav-link active" data-scroll-target="#descripción-de-las-variables"><span class="header-section-number">1</span> Descripción de las Variables</a>
+  <ul class="collapse">
+  <li><a href="#clasificación-de-variables-por-categoría-temática" id="toc-clasificación-de-variables-por-categoría-temática" class="nav-link" data-scroll-target="#clasificación-de-variables-por-categoría-temática"><span class="header-section-number">1.1</span> Clasificación de Variables por Categoría Temática</a></li>
+  </ul></li>
+  <li><a href="#glosario-de-terminología-agrícola" id="toc-glosario-de-terminología-agrícola" class="nav-link" data-scroll-target="#glosario-de-terminología-agrícola"><span class="header-section-number">2</span> Glosario de Terminología Agrícola</a></li>
   </ul>
 </nav>
     </div>
@@ -4083,10 +4087,209 @@ vertical-align: -.125em;
 </header>
 
 
-<p>Los datos abiertos en estadística de producción agrícola son proporcionados por la Dirección General del Servicio de Información Agroalimentaria y Pesquera <a href="https://nube.agricultura.gob.mx/datosAbiertos/Agricola.php">https://nube.agricultura.gob.mx/datosAbiertos/Agricola.php</a>. Se recopilaron los datos correspondientes al Nivel Municipal desde el año 2010 hasta el año 2014, esto nos da un volumen de 541,840 registros, donde cada fila representa las estadísticas de producción agrícola para una combinación específica de año, ubicación, ciclo, modalidad de agua y cultivo.</p>
+<p>Los datos abiertos en estadística de producción agrícola son proporcionados por la Dirección General del Servicio de Información Agroalimentaria y Pesquera (<a href="https://nube.agricultura.gob.mx/datosAbiertos/Agricola.php">https://nube.agricultura.gob.mx/datosAbiertos/Agricola.php</a>). Se recopilaron los datos correspondientes al Nivel Municipal desde el año 2010 hasta el año 2014, donde cada fila representa las estadísticas de producción agrícola para una combinación específica de año, ubicación, ciclo, modalidad de agua y cultivo.</p>
 <section id="descripción-de-las-variables" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="descripción-de-las-variables"><span class="header-section-number">1</span> Descripción de las Variables</h2>
 <p>Cada fila del dataset representa el resultado de una cosecha para un municipio y cultivo específico en un año determinado.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Descripción</th>
+<th>Tipo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Anio</td>
+<td>Año de la información</td>
+<td>Numérico (entero)</td>
+</tr>
+<tr class="even">
+<td>Idestado</td>
+<td>Código identificador de la entidad federativa</td>
+<td>Numérico (entero)</td>
+</tr>
+<tr class="odd">
+<td>Nomestado</td>
+<td>Nombre oficial de la entidad federativa</td>
+<td>Texto (categórico)</td>
+</tr>
+<tr class="even">
+<td>Idddr</td>
+<td>Código identificador del Distrito de Desarrollo Rural</td>
+<td>Numérico (entero)</td>
+</tr>
+<tr class="odd">
+<td>Nomddr</td>
+<td>Nombre del Distrito de Desarrollo Rural</td>
+<td>Texto (categórico)</td>
+</tr>
+<tr class="even">
+<td>Idcader</td>
+<td>Código identificador del Centro de Apoyo al Desarrollo Rural</td>
+<td>Numérico (entero)</td>
+</tr>
+<tr class="odd">
+<td>Nomcader</td>
+<td>Nombre del Centro de Apoyo al Desarrollo Rural</td>
+<td>Texto (categórico)</td>
+</tr>
+<tr class="even">
+<td>Idmunicipio</td>
+<td>Código identificador del municipio o delegación</td>
+<td>Numérico (entero)</td>
+</tr>
+<tr class="odd">
+<td>Nommunicipio</td>
+<td>Nombre del municipio o delegación de producción</td>
+<td>Texto (categórico)</td>
+</tr>
+<tr class="even">
+<td>Idciclo</td>
+<td>Código identificador del ciclo agrícola</td>
+<td>Numérico (entero)</td>
+</tr>
+<tr class="odd">
+<td>Nomcicloproductivo</td>
+<td>Nombre del ciclo agrícola productivo</td>
+<td>Texto (categórico)</td>
+</tr>
+<tr class="even">
+<td>Idmodalidad</td>
+<td>Código identificador del tipo de modalidad hídrica</td>
+<td>Numérico (entero)</td>
+</tr>
+<tr class="odd">
+<td>Nommodalidad</td>
+<td>Nombre de la modalidad hídrica (temporal o riego)</td>
+<td>Texto (categórico)</td>
+</tr>
+<tr class="even">
+<td>Idunidadmedida</td>
+<td>Código identificador de la unidad de medida</td>
+<td>Numérico (entero)</td>
+</tr>
+<tr class="odd">
+<td>Nomunidad</td>
+<td>Nombre de la unidad de medida</td>
+<td>Texto (categórico)</td>
+</tr>
+<tr class="even">
+<td>Idcultivo</td>
+<td>Código identificador del cultivo agrícola</td>
+<td>Numérico (entero)</td>
+</tr>
+<tr class="odd">
+<td>Nomcultivo</td>
+<td>Nombre del cultivo agrícola</td>
+<td>Texto (categórico)</td>
+</tr>
+<tr class="even">
+<td>Sembrada</td>
+<td>Es la superficie agrícola en la cual se deposita la semilla de cualquier cultivo, previa preparación del suelo (hectáreas)</td>
+<td>Numérico (decimal)</td>
+</tr>
+<tr class="odd">
+<td>Cosechada</td>
+<td>Es la superficie de la cual se obtuvo producción del cultivo indicado (hectáreas)</td>
+<td>Numérico (decimal)</td>
+</tr>
+<tr class="even">
+<td>Siniestrada</td>
+<td>Es la superficie de la cual no se obtuvo producción debido a que se perdió por alguna causa, solo aplica para cultivos anuales, ya que los perennes se pueden recuperar las plantaciones en el año siguiente (hectáreas)</td>
+<td>Numérico (decimal)</td>
+</tr>
+<tr class="odd">
+<td>Volumenproduccion</td>
+<td>Volumen de producción de la superficie cosechada cuya unidad de medida son las toneladas, con excepción del maguey pulquero y trigo ornamental, con una métrica de miles de litros y gruesas, respectivamente</td>
+<td>Numérico (decimal)</td>
+</tr>
+<tr class="even">
+<td>Rendimiento</td>
+<td>Rendimiento, la unidad de medida son toneladas por hectárea, con excepción de los cultivos que tienen otra métrica la cual se señala en el nombre del cultivo (gruesa, manojo, planta, entre otros)</td>
+<td>Numérico (decimal)</td>
+</tr>
+<tr class="odd">
+<td>Precio</td>
+<td>Precio medio rural, la unidad de medida son pesos por tonelada, con excepción de los cultivos que tienen otra métrica la cual se señala en el nombre del cultivo (gruesa, manojo, planta, entre otros)</td>
+<td>Numérico (decimal)</td>
+</tr>
+<tr class="even">
+<td>Valorproduccion</td>
+<td>Valor de la producción en pesos corrientes nacionales</td>
+<td>Numérico (decimal)</td>
+</tr>
+</tbody>
+</table>
+<section id="clasificación-de-variables-por-categoría-temática" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="clasificación-de-variables-por-categoría-temática"><span class="header-section-number">1.1</span> Clasificación de Variables por Categoría Temática</h3>
+<p>Las 24 variables del dataset pueden agruparse en cinco categorías temáticas según la dimensión del sistema agrícola que representan. Esta clasificación facilita la comprensión de la estructura del dataset.</p>
+<p><strong>Variables de Ubicación Geográfica</strong></p>
+<p>Describen la localización territorial de cada registro, desde el nivel estatal hasta el municipal.</p>
+<ul>
+<li>Isestado / Nomestado</li>
+<li>Idddr / Nomddr</li>
+<li>Idcader / Nomcader</li>
+<li>Idmunicipio / Nommunicipio</li>
+</ul>
+<p><strong>Variables de Contexto Productivo</strong></p>
+<p>Describen las condiciones bajo las cuales se realizó cada siembra: cuándo, cómo y qué se sembró.</p>
+<ul>
+<li>Anio</li>
+<li>Idciclo / Nomcicloproductivo</li>
+<li>Idmodalidad / Nommodalidad</li>
+<li>Idcultivo / Nomcultivo</li>
+<li>Idunidadmedida / Nomunidad</li>
+</ul>
+<p><strong>Variables de Producción Agrícola</strong></p>
+<p>Cuantifican los resultados físicos de cada ciclo productivo en términos de superficie y volumen.</p>
+<ul>
+<li>Sembrada</li>
+<li>Cosechada</li>
+<li>Siniestrada</li>
+<li>Volumenproduccion</li>
+<li>Rendimiento</li>
+</ul>
+<p><strong>Variables Económicas</strong></p>
+<p>Capturan el valor monetario de la actividad agrícola registrada.</p>
+<ul>
+<li>Precio</li>
+<li>Valorproduccion</li>
+</ul>
+<p>Estas variables reflejan la dimensión económica del sistema agrícola y son relevantes para cuantificar el impacto financiero de los siniestros.</p>
+</section>
+</section>
+<section id="glosario-de-terminología-agrícola" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="glosario-de-terminología-agrícola"><span class="header-section-number">2</span> Glosario de Terminología Agrícola</h2>
+<p>Para interpretar correctamente los resultados del análisis es necesario comprender la terminología específica del sector agrícola mexicano utilizada en el dataset y a lo largo de este reporte.</p>
+<hr>
+<p><strong>Área sembrada</strong> Superficie agrícola en la que se depositó la semilla de un cultivo, previa preparación del suelo. Se mide en hectáreas y representa el punto de partida de cada ciclo productivo. No toda la superficie sembrada llega a producir: una parte puede cosecharse exitosamente y otra puede perderse por siniestro.</p>
+<p><strong>Área cosechada</strong> Fracción del área sembrada de la cual se obtuvo producción efectiva del cultivo. En condiciones normales, la mayor parte del área sembrada se cosecha; la diferencia entre ambas refleja las pérdidas ocurridas durante el ciclo.</p>
+<p><strong>Área siniestrada</strong> Superficie de la cual no se obtuvo producción debido a que el cultivo se perdió totalmente por alguna causa externa, ya sea climática (sequía, helada, granizo, inundación), biológica (plaga, enfermedad) u otra. Esta variable aplica únicamente a cultivos anuales, ya que los cultivos perennes (frutales, agave, caña) pueden recuperarse en el ciclo siguiente sin necesidad de resembrar.</p>
+<p><strong>Siniestro agrícola</strong> Evento que provoca la pérdida total o parcial de un cultivo antes de su cosecha. Los siniestros pueden ser de origen climático (el más común en México), biológico o accidental. En el contexto de seguros agrícolas, el siniestro es el evento que activa el pago de indemnización al productor.</p>
+<p><strong>Modalidad hídrica</strong> Clasificación de una siembra según su fuente de agua. Existen dos modalidades en el dataset:</p>
+<ul>
+<li><p><strong>Temporal:</strong> la siembra depende exclusivamente de las precipitaciones naturales. Es la modalidad predominante en México en términos de superficie y la más vulnerable a variaciones climáticas.</p></li>
+<li><p><strong>Riego:</strong> la siembra cuenta con infraestructura hídrica que permite suministrar agua de forma controlada (canales, presas, pozos, sistemas de goteo). Ofrece mayor resiliencia ante sequías pero no elimina completamente el riesgo de siniestro por heladas, plagas u otros factores.</p></li>
+</ul>
+<p><strong>Ciclo agrícola</strong> Periodo del año durante el cual se desarrolla un cultivo desde la siembra hasta la cosecha. El dataset registra tres ciclos:</p>
+<ul>
+<li><p><strong>Primavera-Verano:</strong> el ciclo principal, que aprovecha las lluvias de mayo a octubre. Concentra la mayor parte de la agricultura de temporal y es el más expuesto al riesgo climático estacional.</p></li>
+<li><p><strong>Otoño-Invierno:</strong> ciclo secundario que se desarrolla entre octubre y marzo, predominante en zonas de riego del noroeste del país donde las temperaturas lo permiten.</p></li>
+<li><p><strong>Perennes:</strong> cultivos que no se ciñen a un ciclo anual específico porque su ciclo de vida supera el año (frutales, agave, caña de azúcar, café). Se registran de forma continua independientemente de la estación.</p></li>
+</ul>
+<p><strong>Distrito de Desarrollo Rural (DDR)</strong> Unidad administrativa de la Secretaría de Agricultura, Ganadería, Desarrollo Rural, Pesca y Alimentación (SADER) que agrupa varios municipios con características productivas similares para fines de planificación y apoyo técnico. México cuenta con 191 DDR distribuidos en todo el territorio nacional.</p>
+<p><strong>Centro de Apoyo al Desarrollo Rural (CADER)</strong> Subdivisión del Distrito de Desarrollo Rural que opera a nivel local, brindando asistencia técnica y administrativa directamente a los productores. Cada DDR está compuesto por varios CADER.</p>
+<p><strong>Precio medio rural</strong> Precio promedio al que el productor vende su cosecha en el punto de origen, antes de cualquier proceso de transformación o comercialización. Se expresa en pesos por tonelada (o por la unidad de medida correspondiente al cultivo) y refleja el valor de mercado en condiciones normales de la región productora.</p>
+<p><strong>Rendimiento agrícola</strong> Producción obtenida por unidad de superficie cosechada, expresada generalmente en toneladas por hectárea. Es un indicador de la eficiencia productiva del cultivo en las condiciones específicas de ese año, región y modalidad. Valores bajos de rendimiento pueden indicar condiciones climáticas adversas, aunque no necesariamente implican siniestro total.</p>
+<p><strong>Seguridad alimentaria</strong> Condición en la que todas las personas tienen acceso físico, social y económico a alimentos suficientes, seguros y nutritivos que satisfacen sus necesidades. La pérdida de cultivos por siniestro amenaza directamente la seguridad alimentaria al reducir la disponibilidad de alimentos básicos y elevar sus precios.</p>
+<p><strong>Milpa</strong> Sistema agrícola tradicional mexicano basado en el cultivo simultáneo de maíz, frijol y calabaza en la misma parcela. Representa la base de la agricultura campesina de subsistencia en México y explica la alta correlación entre registros de maíz y frijol observada en el dataset.</p>
 
 
 </section>
