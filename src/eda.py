@@ -11,17 +11,20 @@ Encapsula toda la lógica del EDA requerida por el proyecto:
 """
 
 import warnings
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
 from IPython.display import display, Markdown
+
 from src.data_loader import DataLoader
 
 warnings.filterwarnings("ignore")
 
-# ── Estilo global ──────────────────────────────────────────────────────────────
+# Estilo global
 sns.set_theme(style="whitegrid", palette="muted")
 COLORES_MODALIDAD = {"Temporal": "#e07b39", "Riego": "#3b7fc4"}
 
@@ -46,7 +49,25 @@ class EDAAnalyzer:
         "Nomestado", "Nomcicloproductivo", "Nommodalidad", "Nomcultivo",
     ]
 
-    def __init__(self, df: pd.DataFrame, guardar_figuras: bool = False):
+    # Niveles ordinales de riesgo agrícola
+    NIVELES_RIESGO: list[str] = [
+        "Sin siniestro",
+        "Riesgo bajo",
+        "Riesgo medio",
+        "Riesgo alto",
+        "Pérdida crítica",
+    ]
+
+    # Colores asociados a cada nivel de riesgo
+    COLORES_RIESGO: dict[str, str] = {
+        "Sin siniestro":   "#2ecc71",
+        "Riesgo bajo":     "#f1c40f",
+        "Riesgo medio":    "#e67e22",
+        "Riesgo alto":     "#e74c3c",
+        "Pérdida crítica": "#8e44ad",
+    }
+
+    def __init__(self, df: pd.DataFrame, guardar_figuras: bool = False) -> None:
         self.df = DataLoader.aplicar_tipos(
             df.copy(),
             numericas=self.NUMERICAS,
@@ -75,6 +96,7 @@ class EDAAnalyzer:
             "Únicos": df.nunique(),
         })
         display(resumen)
+
         return resumen
 
     # PROPORCIÓN DE SINIESTRO
@@ -83,21 +105,9 @@ class EDAAnalyzer:
         """
         Crea la variable derivada proporcion_siniestro.
 
-        Definición
-        ----------
-        proporcion_siniestro = Siniestrada / Sembrada
-
         La proporción se recorta al intervalo [0, 1] para evitar valores
         imposibles debidos a inconsistencias en el reporte de hectáreas.
         Los registros donde Sembrada == 0 reciben el valor 0.
-
-        La nueva columna se agrega directamente al DataFrame interno
-        del analizador (self.df) y se muestra un resumen estadístico.
-
-        Retorna
-        -------
-        pd.DataFrame
-            Estadísticas descriptivas de la nueva variable.
         """
         df = self.df
 
@@ -124,8 +134,65 @@ class EDAAnalyzer:
 
         return df
 
+    def discretizar_proporcion_siniestro(self) -> pd.DataFrame:
+        """
+        Crea la variable categórica ordinal nivel_riesgo a partir de
+        proporcion_siniestro mediante discretización por intervalos fijos.
 
-    # 2. CALIDAD DE DATOS
+        Criterio de cortes:
+        - 0 : Sin siniestro
+        - (0.00, 0.10] : Riesgo bajo
+        - (0.10, 0.40] : Riesgo medio
+        - (0.40, 0.75] : Riesgo alto
+        - (0.75, 1.00] : Pérdida crítica
+        """
+        df = self.df
+
+        if "proporcion_siniestro" not in df.columns:
+            print("Primero ejecuta nueva_variable_proporcion_siniestro().")
+            return df
+
+        self.df["nivel_riesgo"] = pd.Categorical(
+            self.df["proporcion_siniestro"].map(self._clasificar_riesgo),
+            categories=self.NIVELES_RIESGO,
+            ordered=True,
+        )
+
+        df = self.df
+
+        # Distribución de frecuencias y porcentajes
+        conteo = df["nivel_riesgo"].value_counts().reindex(self.NIVELES_RIESGO)
+        pct = (conteo / len(df) * 100).round(2)
+        tabla = pd.DataFrame({"Registros": conteo, "% del total": pct})
+        display(tabla)
+        fig, ax = plt.subplots(figsize=(9, 5))
+        bars = ax.bar(
+            conteo.index,
+            conteo.values,
+            color=[self.COLORES_RIESGO[c] for c in conteo.index],
+            edgecolor="white",
+            width=0.6,
+        )
+        for bar, val, p in zip(bars, conteo.values, pct.values):
+            ax.text(
+                bar.get_x() + bar.get_width() / 2,
+                bar.get_height() * 1.01,
+                f"{val:,}\n({p:.1f}%)",
+                ha="center", va="bottom", fontsize=9,
+            )
+        ax.set_title("Distribución de nivel de riesgo agrícola\n(discretización de proporcion_siniestro)",
+                     fontsize=13)
+        ax.set_xlabel("Nivel de riesgo")
+        ax.set_ylabel("Número de registros")
+        ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:,.0f}"))
+        ax.spines[["top", "right"]].set_visible(False)
+        plt.tight_layout()
+        self._guardar_o_mostrar("distribucion_nivel_riesgo.png")
+
+        return self.df
+
+
+    # 2. CALIDAD DE DATOS Y PROCESAMIENTO DE DATOS
 
     def calidad_datos(self) -> dict:
         """
@@ -153,7 +220,6 @@ class EDAAnalyzer:
     def analisis_nulos(self) -> None:
         """
         Analiza patrones en los datos faltantes.
-        Co-ocurrencia (correlación de nulos)
         """
         df = self.df
         cols_con_nulos = df.columns[df.isna().any()].tolist()
@@ -213,14 +279,14 @@ class EDAAnalyzer:
 
     def estadisticas_descriptivas_numericas(self) -> pd.DataFrame:
         """
-        Media, mediana, desv. estándar, cuartiles y moda para variables clave.
+        Media, mediana, desv. estándar, cuartiles y moda para variables.
         """
         df = self.df
         cols = [c for c in self.NUMERICAS if c in df.columns]
 
-        desc = df[cols].describe(percentiles=[0.25, 0.5, 0.75]).T
+        desc = self.df[cols].describe(percentiles=[0.25, 0.5, 0.75]).T
         desc["rango"] = desc["max"] - desc["min"]
-        display(desc.round(2))
+        display(desc.round(4))
 
         return desc
 
@@ -238,13 +304,12 @@ class EDAAnalyzer:
                 
                 # calculamos las frecuencias
                 frecuencias = df[col].value_counts().head(3)
-                print("Top 3 frecuencias (conteos):")
+                print("Top 3 frecuencias:")
                 for cat, count in frecuencias.items():
                     print(f"- {cat}: {count:,} registros")
 
-    # ──────────────────────────────────────────────────────────────────────────
+
     # 4. DETECCIÓN DE OUTLIERS
-    # ──────────────────────────────────────────────────────────────────────────
 
     def detectar_outliers(self, columnas: list[str] | None = None) -> pd.DataFrame:
         """
@@ -252,7 +317,7 @@ class EDAAnalyzer:
         Genera boxplots comparativos por modalidad hídrica.
         """
         df = self.df
-        cols = columnas or [c for c in ["Sembrada", "Siniestrada", "Rendimiento"] if c in df.columns]
+        cols = [c for c in self.NUMERICAS if c in df.columns]
 
         resultados = []
         for col in cols:
@@ -265,24 +330,17 @@ class EDAAnalyzer:
             pct = n_outliers / len(df) * 100
             resultados.append({
                 "Variable": col, "Q1": q1, "Q3": q3, "IQR": iqr,
-                "Lím. inf.": lim_inf, "Lím. sup.": lim_sup,
+                "Límite inferior": lim_inf, "Límite superior": lim_sup,
                 "Outliers": n_outliers, "% Outliers": round(pct, 2),
             })
 
         tabla = pd.DataFrame(resultados).set_index("Variable")
-        print("=" * 60)
-        print("  OUTLIERS (Regla IQR)")
-        print("=" * 60)
-        print(tabla.to_string())
-        print("\n  Decisión: los outliers extremos en Siniestrada y Rendimiento")
-        print("  corresponden a eventos reales (desastres climáticos), por lo que")
-        print("  se conservan. Se aplicará transformación log1p antes del modelado.")
+        display(tabla)
 
         # Boxplots
-        fig, axes = plt.subplots(1, len(cols), figsize=(5 * len(cols), 5))
-        if len(cols) == 1:
-            axes = [axes]
-        for ax, col in zip(axes, cols):
+        for col in cols:
+            fig, ax = plt.subplots(figsize=(6, 5))
+            
             if "Nommodalidad" in df.columns:
                 data = [
                     df.loc[df["Nommodalidad"].astype(str).str.contains(k, case=False), col].dropna()
@@ -292,31 +350,36 @@ class EDAAnalyzer:
                            boxprops=dict(facecolor="#e0e8f0"))
             else:
                 ax.boxplot(df[col].dropna(), patch_artist=True)
+                
             ax.set_title(f"Outliers: {col}")
-            ax.set_ylabel("Hectáreas")
             ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:,.0f}"))
-        plt.suptitle("Distribución y outliers por modalidad hídrica", fontsize=13, y=1.01)
-        plt.tight_layout()
-        self._guardar_o_mostrar("outliers_boxplot.png")
+            plt.tight_layout()
+
+            if self.guardar_figuras:
+                Path("figuras").mkdir(exist_ok=True)
+                plt.savefig(f"figuras/outliers_boxplot_{col}.png", dpi=150, bbox_inches="tight")
+            plt.close(fig)
 
         return tabla
 
-    # ──────────────────────────────────────────────────────────────────────────
+
     # 5. DISTRIBUCIONES
-    # ──────────────────────────────────────────────────────────────────────────
 
     def visualizar_distribuciones(self, columnas: list[str] | None = None) -> None:
         """
-        Histogramas con KDE para variables numéricas relevantes.
+        Histogramas para variables numéricas relevantes.
         """
-        df = self.df
-        cols = columnas or [c for c in self.NUMERICAS if c in df.columns]
+        cols = [c for c in self.NUMERICAS if c in self.df.columns]
+        
+        if columnas is not None:
+            cols = columnas
+
         n = len(cols)
         fig, axes = plt.subplots(2, (n + 1) // 2, figsize=(6 * ((n + 1) // 2), 9))
         axes = axes.flatten()
 
         for i, col in enumerate(cols):
-            data = df[col].dropna()
+            data = self.df[col].dropna()
             # Log1p para variables con sesgo positivo severo
             if data.skew() > 2:
                 data_plot = np.log1p(data)
@@ -338,9 +401,8 @@ class EDAAnalyzer:
         plt.tight_layout()
         self._guardar_o_mostrar("distribuciones.png")
 
-    # ──────────────────────────────────────────────────────────────────────────
+
     # 6. CORRELACIONES
-    # ──────────────────────────────────────────────────────────────────────────
 
     def matriz_correlaciones(self, metodo: str = "spearman") -> pd.DataFrame:
         """
@@ -361,23 +423,14 @@ class EDAAnalyzer:
         plt.tight_layout()
         self._guardar_o_mostrar("correlaciones.png")
 
-        print(f"\n  Correlaciones notables con Siniestrada ({metodo}):")
-        for col in cols:
-            if col != "Siniestrada":
-                val = corr.loc["Siniestrada", col]
-                if abs(val) > 0.1:
-                    print(f"  · {col}: {val:.3f}")
-
         return corr
 
-    # ──────────────────────────────────────────────────────────────────────────
+
     # 7. VARIABLES CATEGÓRICAS
-    # ──────────────────────────────────────────────────────────────────────────
 
     def analisis_categoricas(self, top_n: int = 15) -> None:
         """
         Barras de frecuencia para variables categóricas.
-        Incluye análisis de balance de la variable objetivo (ratio siniestro).
         """
         df = self.df
         cols = [c for c in self.CATEGORICAS if c in df.columns]
@@ -394,14 +447,8 @@ class EDAAnalyzer:
             plt.tight_layout()
             self._guardar_o_mostrar(f"barras_{col}.png")
 
-        # Balance de clases (ratio siniestro)
-        if "ratio_siniestro" in df.columns and "Nommodalidad" in df.columns:
-            print("\n  Balance de ratio_siniestro por modalidad:")
-            display(df.groupby("Nommodalidad", observed=True)["ratio_siniestro"].describe().round(4))
 
-    # ──────────────────────────────────────────────────────────────────────────
     # 8. SERIE DE TIEMPO Y ANÁLISIS GEOGRÁFICO
-    # ──────────────────────────────────────────────────────────────────────────
 
     def serie_temporal(self) -> pd.DataFrame:
         """
@@ -472,6 +519,76 @@ class EDAAnalyzer:
 
         return ranking.reset_index()
 
+    def top_estados_cosechada(self, top_n: int = 10) -> pd.DataFrame:
+        """
+        Ranking de estados con mayor área cosechada acumulada (millones de ha).
+
+        Parámetros
+        ----------
+        top_n : int
+            Número de estados a mostrar (default 10).
+        """
+        df = self.df
+
+        if "Nomestado" not in df.columns or "Cosechada" not in df.columns:
+            print("Se requieren las columnas 'Nomestado' y 'Cosechada'.")
+            return pd.DataFrame()
+
+        # Total cosechado por estado
+        total = (
+            df.groupby("Nomestado", observed=True)["Cosechada"]
+            .sum()
+            .sort_values(ascending=False)
+            .head(top_n)
+            .div(1e6)
+        )
+        estados_top = total.index.tolist()
+
+        # Desagregación por modalidad
+        resultado = pd.DataFrame({"Total": total})
+
+        if "Nommodalidad" in df.columns:
+            sub = df[df["Nomestado"].isin(estados_top)]
+            modal = (
+                sub.groupby(["Nomestado", "Nommodalidad"], observed=True)["Cosechada"]
+                .sum()
+                .div(1e6)
+                .unstack(fill_value=0)
+            )
+            # Asegurar que existan ambas columnas aunque no aparezcan en el subconjunto
+            for mod in ["Riego", "Temporal"]:
+                if mod not in modal.columns:
+                    modal[mod] = 0.0
+            modal = modal.reindex(estados_top)[["Riego", "Temporal"]]
+            resultado = resultado.join(modal, how="left").fillna(0)
+
+            # Barras apiladas por modalidad
+            fig, ax = plt.subplots(figsize=(10, max(5, top_n * 0.55)))
+            modal_plot = modal.sort_values("Total" if "Total" in modal.columns else "Riego", ascending=True)
+            # ordenar igual que el ranking total
+            modal_plot = modal.reindex(total.sort_values().index)
+
+            modal_plot[["Temporal", "Riego"]].plot(
+                kind="barh",
+                stacked=True,
+                ax=ax,
+                color=[COLORES_MODALIDAD["Temporal"], COLORES_MODALIDAD["Riego"]],
+                edgecolor="white",
+                width=0.65,
+            )
+            ax.set_title(
+                f"Área cosechada por modalidad hídrica – Top {top_n} estados",
+                fontsize=12,
+            )
+            ax.set_xlabel("Millones de hectáreas")
+            ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:,.1f}"))
+            ax.legend(title="Modalidad", loc="lower right")
+            ax.spines[["top", "right"]].set_visible(False)
+            plt.tight_layout()
+            self._guardar_o_mostrar("top_estados_cosechada_modalidad.png")
+
+        return resultado.reset_index()
+
     def scatter_sembrada_vs_siniestrada(self) -> None:
         """
         Scatter plot: área sembrada vs. siniestrada, coloreado por modalidad.
@@ -501,27 +618,165 @@ class EDAAnalyzer:
         plt.tight_layout()
         self._guardar_o_mostrar("scatter_sembrada_siniestrada.png")
 
-    # ──────────────────────────────────────────────────────────────────────────
-    # Columna auxiliar
-    # ──────────────────────────────────────────────────────────────────────────
+    def top_cultivos_por_estado(
+        self,
+        top_estados: int = 5,
+        top_cultivos: int = 5,
+    ) -> pd.DataFrame:
+        """
+        Genera un heatmap y un gráfico de barras agrupadas con los cultivos
+        más frecuentes dentro de los estados más frecuentes del dataset.
 
-    def _preparar_columna_ratio(self) -> None:
-        """Agrega ratio_siniestro = Siniestrada / Sembrada (clipeado a [0,1])."""
-        if "Sembrada" in self.df.columns and "Siniestrada" in self.df.columns:
-            self.df["ratio_siniestro"] = (
-                self.df["Siniestrada"]
-                .div(self.df["Sembrada"].replace(0, np.nan))
-                .clip(0, 1)
-                .fillna(0)
-            )
+        Parámetros
+        ----------
+        top_estados  : int
+            Número de estados con más registros a considerar (default 5).
+        top_cultivos : int
+            Número de cultivos más frecuentes a mostrar por estado (default 5).
+        """
+        df = self.df
 
-    # ──────────────────────────────────────────────────────────────────────────
+        if "Nomestado" not in df.columns or "Nomcultivo" not in df.columns:
+            print("Se requieren las columnas 'Nomestado' y 'Nomcultivo'.")
+            return pd.DataFrame()
+
+        # Seleccionar top estados y top cultivos
+        estados = (
+            df["Nomestado"].value_counts()
+            .head(top_estados)
+            .index.tolist()
+        )
+        cultivos = (
+            df["Nomcultivo"].value_counts()
+            .head(top_cultivos)
+            .index.tolist()
+        )
+
+        sub = df[df["Nomestado"].isin(estados) & df["Nomcultivo"].isin(cultivos)]
+
+        pivot = (
+            sub.groupby(["Nomestado", "Nomcultivo"], observed=True)
+            .size()
+            .unstack(fill_value=0)
+            .reindex(index=estados, columns=cultivos, fill_value=0)
+        )
+
+        # Heatmap
+        fig, ax = plt.subplots(figsize=(max(8, top_cultivos * 1.8), max(4, top_estados * 1.1)))
+        sns.heatmap(
+            pivot,
+            annot=True,
+            fmt=",",
+            cmap="YlOrRd",
+            linewidths=0.5,
+            ax=ax,
+            cbar_kws={"label": "Número de registros"},
+        )
+        ax.set_title(
+            f"Top {top_cultivos} cultivos en los Top {top_estados} estados\n(número de registros)",
+            fontsize=13,
+        )
+        ax.set_xlabel("Cultivo")
+        ax.set_ylabel("Estado")
+        plt.xticks(rotation=35, ha="right")
+        plt.yticks(rotation=0)
+        plt.tight_layout()
+        self._guardar_o_mostrar("heatmap_cultivos_estados.png")
+
+        # Barras agrupadas
+        pivot_plot = pivot.T          # cultivos en eje X, estados como series
+        x = np.arange(len(cultivos))
+        ancho = 0.15
+        paleta = sns.color_palette("tab10", n_colors=top_estados)
+
+        fig, ax = plt.subplots(figsize=(max(10, top_cultivos * 2), 6))
+        for i, (estado, color) in enumerate(zip(estados, paleta)):
+            offset = (i - top_estados / 2 + 0.5) * ancho
+            vals = pivot_plot[estado].values if estado in pivot_plot.columns else np.zeros(len(cultivos))
+            bars = ax.bar(x + offset, vals, width=ancho, label=estado, color=color, edgecolor="white")
+
+        ax.set_xticks(x)
+        ax.set_xticklabels(cultivos, rotation=35, ha="right", fontsize=9)
+        ax.set_title(
+            f"Registros por cultivo en los Top {top_estados} estados",
+            fontsize=13,
+        )
+        ax.set_ylabel("Número de registros")
+        ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v:,.0f}"))
+        ax.legend(title="Estado", bbox_to_anchor=(1.01, 1), loc="upper left", fontsize=8)
+        ax.spines[["top", "right"]].set_visible(False)
+        plt.tight_layout()
+        self._guardar_o_mostrar("barras_cultivos_estados.png")
+
+        return pivot
+
+
     # Helpers
-    # ──────────────────────────────────────────────────────────────────────────
+
+    def exportar_dataset_limpio(
+        self,
+        ruta: str | None = None,
+        formato: str = "csv",
+    ) -> str:
+        """
+        Exporta el DataFrame procesado.
+
+        Parámetros
+        ----------
+        ruta : str | None
+            Ruta completa del archivo de destino.
+        formato : str
+        """
+        from pathlib import Path
+
+        formato = formato.lower().strip()
+        if formato not in ("csv", "parquet"):
+            raise ValueError("El formato debe ser 'csv' o 'parquet'.")
+
+        ruta_path = (
+            Path("../data/processed") / f"siap_procesado.{formato}"
+            if ruta is None
+            else Path(ruta)
+        )
+        ruta_path.parent.mkdir(parents=True, exist_ok=True)
+
+        df_export = self.df.copy()
+        # Convertir columnas Categorical a str para compatibilidad CSV/Parquet
+        for col in df_export.select_dtypes(include="category").columns:
+            df_export[col] = df_export[col].astype(str)
+
+        if formato == "csv":
+            df_export.to_csv(ruta_path, index=False, encoding="utf-8-sig")
+        else:
+            df_export.to_parquet(ruta_path, index=False)
+
+        vars_derivadas = [c for c in ["proporcion_siniestro", "nivel_riesgo"] if c in df_export.columns]
+        print("Dataset exportado correctamente.")
+        print(f"  Ruta    : {ruta_path.resolve()}")
+        print(f"  Formato : {formato.upper()}")
+        print(f"  Filas   : {len(df_export):,}")
+        print(f"  Columnas: {len(df_export.columns):,}")
+        if vars_derivadas:
+            print(f"  Variables derivadas incluidas: {', '.join(vars_derivadas)}")
+
+        return str(ruta_path.resolve())
+
+    @staticmethod
+    def _clasificar_riesgo(p: float) -> str:
+        """Clasifica una proporción de siniestro en su nivel de riesgo textual."""
+        if p == 0:
+            return "Sin siniestro"
+        elif p <= 0.10:
+            return "Riesgo bajo"
+        elif p <= 0.40:
+            return "Riesgo medio"
+        elif p <= 0.75:
+            return "Riesgo alto"
+        return "Pérdida crítica"
 
     def _guardar_o_mostrar(self, nombre: str) -> None:
+        """Guarda la figura activa en disco (si guardar_figuras) y la muestra."""
         if self.guardar_figuras:
-            from pathlib import Path
             Path("figuras").mkdir(exist_ok=True)
             plt.savefig(f"figuras/{nombre}", dpi=150, bbox_inches="tight")
         plt.show()
