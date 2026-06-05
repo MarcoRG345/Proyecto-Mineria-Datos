@@ -21,6 +21,8 @@ website:
         text: EDA
       - href: notebooks/modelo_supervisado.ipynb
         text: Modelo supervisado
+      - href: notebooks/modelo_supervisado_2.ipynb
+        text: Clasificación (XGBoost)
       - href: notebooks/clustering.ipynb
         text: Clustering
     right:
