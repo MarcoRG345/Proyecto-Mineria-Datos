@@ -45,3 +45,4 @@ format:
     fig-height: 5
     df-print: paged
     html-math-method: mathjax
+    lightbox: true

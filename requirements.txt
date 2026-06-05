@@ -1,0 +1,16 @@
+# Dependencias del proyecto de Minería de Datos (SIAP)
+# Probado con Python 3.13
+
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.6        # metadata routing (params=) usado en cross_validate/learning_curve
+xgboost>=2.0             # API multi:softprob, tree_method='hist'
+shap>=0.50               # shap_values multiclase como ndarray (n, features, clases)
+matplotlib>=3.7
+seaborn>=0.12
+
+# Ejecución/render del sitio Quarto
+jupyter
+nbformat
+nbclient
+ipykernel

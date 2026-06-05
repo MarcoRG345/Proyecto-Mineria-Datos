@@ -42,6 +42,16 @@ class DataLoader:
         print(f"[DataLoader] Cargando {self.ruta.name} ...")
         df = pd.read_csv(self.ruta, encoding=self.encoding, sep=self.sep, low_memory=False)
 
+        # El archivo trae un BOM (Byte Order Mark) al inicio. Como se lee con
+        # 'latin-1', el BOM aparece como los caracteres 'ï»¿' pegados al nombre
+        # de la primera columna (p. ej. 'ï»¿Anio' en vez de 'Anio'). Si se lee
+        # con utf-8-sig aparecería como '﻿'. Limpiamos ambos casos para que
+        # las columnas tengan nombres correctos sin importar la codificación.
+        df.columns = [
+            str(c).replace("﻿", "").replace("ï»¿", "").strip()
+            for c in df.columns
+        ]
+
         self._df = df
         print(f"[DataLoader] {df.shape[0]} filas , {df.shape[1]} columnas cargadas.")
         return self._df

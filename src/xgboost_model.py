@@ -1,7 +1,22 @@
+import unicodedata
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils.class_weight import compute_class_weight
+
+
+def _normalizar(texto: str) -> str:
+    """Normaliza una cadena para comparación robusta a acentos y mojibake.
+
+    El CSV `siap_procesado.csv` tiene codificación MIXTA: algunos acentos están
+    en latin-1 y otros en UTF-8, por lo que "Pérdida crítica" puede llegar como
+    'PÃ©rdida crÃ\xadtica', 'Pérdida cr\xadtica', etc. Esta función dobla los
+    caracteres a ASCII (eliminando acentos y bytes basura) y deja minúsculas,
+    para poder mapear por palabra clave sin depender de la codificación exacta.
+    """
+    s = unicodedata.normalize("NFKD", str(texto))
+    s = s.encode("ascii", "ignore").decode("ascii")
+    return s.lower().strip()
 
 class XGBoostDataPrep:
     """
@@ -12,14 +27,26 @@ class XGBoostDataPrep:
     # Features que usará el modelo
     FEATURES = [
         'Anio',
-        'Idestado_encoded', 
-        'Idmunicipio_encoded', 
-        'Idciclo', 
-        'Idmodalidad', 
-        'Idcultivo_encoded', 
+        'Idestado_encoded',
+        'Idmunicipio_encoded',
+        'Idciclo',
+        'Idmodalidad',
+        'Idcultivo_encoded',
         'log_sembrada',
         'interaccion_mod_ciclo'
     ]
+
+    # Nombres legibles para usar en gráficas (feature importance, SHAP, etc.)
+    FEATURES_LEGIBLES = {
+        'Anio': 'Año',
+        'Idestado_encoded': 'Estado',
+        'Idmunicipio_encoded': 'Municipio',
+        'Idciclo': 'Ciclo productivo',
+        'Idmodalidad': 'Modalidad (riego/temporal)',
+        'Idcultivo_encoded': 'Cultivo',
+        'log_sembrada': 'log(Sup. sembrada)',
+        'interaccion_mod_ciclo': 'Modalidad × Ciclo',
+    }
 
     def __init__(self, df: pd.DataFrame):
         self.df = df.copy()
@@ -47,22 +74,36 @@ class XGBoostDataPrep:
         # Interacción entre modalidad y ciclo
         self.df['interaccion_mod_ciclo'] = self.df['Idmodalidad'] * self.df['Idciclo']
         
-        # 2. Codificar variable objetivo
-        # Normalizar posibles variaciones de encoding en el texto
-        nivel = self.df['nivel_riesgo'].astype(str).str.strip()
-        self.df['target'] = nivel.map(self.riesgo_map)
-        
-        # Fallback: si hay NaN en target, intentar matching parcial
-        if self.df['target'].isna().any():
-            mask_na = self.df['target'].isna()
-            for idx in self.df[mask_na].index:
-                val = str(self.df.loc[idx, 'nivel_riesgo']).strip()
-                for key in self.riesgo_map:
-                    if key.lower() in val.lower() or val.lower() in key.lower():
-                        self.df.loc[idx, 'target'] = self.riesgo_map[key]
-                        break
-        
-        # Si aún hay NaN, asignar clase 0 (sin siniestro) como default
+        # 2. Codificar variable objetivo de forma ROBUSTA a la codificación.
+        # No se puede usar `.map(riesgo_map)` directo porque el CSV tiene
+        # codificación mixta y "Pérdida crítica" no coincide exactamente con la
+        # clave (la 'í' llega como mojibake). Mapeamos por PALABRA CLAVE sobre
+        # el texto normalizado a ASCII (ver `_normalizar`). Así las 5 clases se
+        # asignan correctamente sin importar acentos ni bytes corruptos.
+        def _a_clase(valor):
+            s = _normalizar(valor)
+            if s in ('', 'nan', 'none'):
+                return np.nan          # verdadero faltante
+            if 'sin' in s:
+                return 0
+            if 'bajo' in s:
+                return 1
+            if 'medio' in s:
+                return 2
+            if 'alto' in s:
+                return 3
+            # Vocabulario cerrado de 5 categorías: cualquier valor restante
+            # corresponde a "Pérdida crítica" (que por el mojibake del CSV se
+            # normaliza como 'pardida cratica' y no contiene palabras claras).
+            return 4
+
+        self.df['target'] = self.df['nivel_riesgo'].map(_a_clase)
+
+        n_nan = int(self.df['target'].isna().sum())
+        if n_nan:
+            print(f"  ADVERTENCIA: {n_nan} registros con nivel_riesgo no reconocido "
+                  f"-> asignados a clase 0. Valores: "
+                  f"{self.df.loc[self.df['target'].isna(), 'nivel_riesgo'].unique()[:5]}")
         self.df['target'] = self.df['target'].fillna(0).astype(int)
         
         # 3. Label Encoding de variables categóricas
