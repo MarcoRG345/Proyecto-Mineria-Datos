@@ -6,6 +6,7 @@ numpy>=1.24
 scikit-learn>=1.6        # metadata routing (params=) usado en cross_validate/learning_curve
 xgboost>=2.0             # API multi:softprob, tree_method='hist'
 shap>=0.50               # shap_values multiclase como ndarray (n, features, clases)
+optuna>=3.0              # búsqueda bayesiana de hiperparámetros (Sección 3)
 matplotlib>=3.7
 seaborn>=0.12
 

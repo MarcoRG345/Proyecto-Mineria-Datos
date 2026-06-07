@@ -4,6 +4,9 @@ __pycache__/
 .env
 data/raw/*.csv
 data/processed/*.csv
+data/clima/*.csv
+data/clima/*.json
+data/clima/*.nc
 *.DS_Store
 /.quarto/
 **/*.quarto_ipynb
