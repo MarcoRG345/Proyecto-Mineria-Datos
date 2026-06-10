@@ -232,7 +232,7 @@ def predict(registro: RegistroAgricola) -> RespuestaPrediccion:
     except Exception as exc:
         raise HTTPException(
             status_code=500,
-            detail=f"Error interno al ejecutar la predicción: {exc}",
+            detail=f"Error al ejecutar prediccion: {exc}",
         )
 
     probabilidades = {
