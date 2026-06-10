@@ -46,3 +46,5 @@ format:
     df-print: paged
     html-math-method: mathjax
     lightbox: true
+    code-fold: true
+    code-summary: "Mostrar código"
