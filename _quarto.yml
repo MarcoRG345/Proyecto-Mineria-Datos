@@ -20,7 +20,7 @@ website:
       - href: notebooks/eda.ipynb
         text: EDA
       - href: notebooks/modelo_supervisado.ipynb
-        text: Modelo supervisado
+        text: Clasificación (CatBoost)
       - href: notebooks/modelo_supervisado_2.ipynb
         text: Clasificación (XGBoost)
       - href: notebooks/clustering.ipynb
